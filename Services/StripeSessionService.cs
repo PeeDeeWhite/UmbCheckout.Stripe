@@ -48,7 +48,7 @@ namespace UmbCheckout.Stripe.Services
         }
 
         /// <inheritdoc />
-        public Session GetSession(string id)
+        public Session GetSession(string id, UmbCheckoutSessionGetOptions? options = null)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace UmbCheckout.Stripe.Services
                 var stripeClient = new StripeClient(apiKey);
 
                 var service = new SessionService(stripeClient);
-                var session = service.Get(id);
+                var session = service.Get(id, options?.ToSessionGetOptions());
 
                 scope.Notifications.Publish(new OnProviderGetSessionNotification(id));
 
